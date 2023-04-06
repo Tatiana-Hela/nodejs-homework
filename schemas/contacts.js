@@ -26,4 +26,6 @@ const addSchema = Joi.object({
       "string.empty": `"phone" cannot be empty`,
     }),
 });
-module.exports = addSchema;
+module.exports = {
+    addSchema,
+};
