@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
-const {DB_HOST} = require("./config")
+
 const app = require("./app");
-// 1NuxOB2h0rvbYrVJ
+
+const { DB_HOST } = process.env;
 
 mongoose
   .connect(DB_HOST)
