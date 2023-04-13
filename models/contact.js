@@ -14,7 +14,7 @@ const addSchema = Joi.object({
       "string.empty": `"name" cannot be empty`,
     }),
   email: Joi.string()
-    .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
+    .pattern(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/)
     .required()
     .messages({
       "any.required": `"email" is required`,

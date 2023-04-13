@@ -11,7 +11,7 @@ const updateStatusContact = async (req, res) => {
     { new: true }
   );
   if (!result) {
-    throw HttpError(404, "missing field favorite");
+    throw HttpError(404, "Missing field favorite");
   }
   res.json(result);
 };
