@@ -21,18 +21,20 @@ const addSchema = Joi.object({
       "string.empty": `"email" cannot be empty`,
     }),
   phone: Joi.string()
-    .regex(/^\d{10}$/)
-    .length(10)
+    .pattern(/\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/)
     .required()
     .messages({
-      "any.required": `"phone" is required`,
+      "any.required": "missing field phone",
       "string.empty": `"phone" cannot be empty`,
     }),
   favorite: Joi.boolean(),
 });
 
 const statusSchema = Joi.object({
-  favorite: Joi.bool().required(),
+  favorite: Joi.bool()
+    .valid(true, false)
+    .required("missing field favorite")
+    .messages({ "any.required": "missing field favorite" }),
 });
 
 const contactSchema = new Schema(
@@ -43,11 +45,24 @@ const contactSchema = new Schema(
     },
     email: {
       type: String,
-      required: true,
+      trim: true,
+      lowercase: true,
+      validate: {
+        validator: function (v) {
+          return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v);
+        },
+        message: "Please enter a valid email",
+      },
     },
     phone: {
       type: String,
-      required: true,
+      validate: {
+        validator: function (v) {
+          return /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/.test(v);
+        },
+        message: "Please enter a valid phone",
+      },
+      required: [true, "Set phone for contact"],
     },
     favorite: {
       type: Boolean,
