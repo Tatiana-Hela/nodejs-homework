@@ -79,11 +79,7 @@ const contactSchema = new Schema(
 
 contactSchema.post("save", handleMongooseError);
 
-const schemas = {
-  addSchema,
-  statusSchema,
-};
 
 const Contact = model("contact", contactSchema);
 
-module.exports = { Contact, schemas };
+module.exports = { Contact, addSchema, statusSchema };
