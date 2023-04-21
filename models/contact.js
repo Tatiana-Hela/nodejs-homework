@@ -14,7 +14,7 @@ const addSchema = Joi.object({
       "string.empty": `"name" cannot be empty`,
     }),
   email: Joi.string()
-    .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
+    .pattern(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/)
     .required()
     .messages({
       "any.required": `"email" is required`,
@@ -68,17 +68,18 @@ const contactSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+      // required:true,
+    },
   },
   { versionKey: false, timestamps: true }
 );
 
 contactSchema.post("save", handleMongooseError);
 
-const schemas = {
-  addSchema,
-  statusSchema,
-};
 
 const Contact = model("contact", contactSchema);
 
-module.exports = { Contact, schemas };
+module.exports = { Contact, addSchema, statusSchema };

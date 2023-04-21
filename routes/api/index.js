@@ -1,5 +1,7 @@
-const router = require("../api/contacts");
+const contactsRouter = require("./contactsRoute");
+const authRouter = require("./authRoute");
 
 module.exports = {
-  router,
+  contactsRouter,
+  authRouter,
 };
