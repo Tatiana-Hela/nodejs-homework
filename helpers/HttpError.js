@@ -3,6 +3,7 @@ const errorMessages = {
   401: "Not authorized",
   403: "Forbidden",
   404: "Not Found",
+  406: "Not Acceptable",
   409: "Conflict",
 };
 
