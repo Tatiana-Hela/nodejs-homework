@@ -32,7 +32,18 @@ const userSchema = new Schema(
       type: String,
       default: null,
     },
-    avatarURL: String,
+    avatarURL: {
+      type: String,
+      required: true,
+    },
+    verify: {
+      type: Boolean,
+      default: false,
+    },
+    verificationToken: {
+      type: String,
+      required: [true, "Verify token is required"],
+    },
   },
   { versionKey: false, timestamps: true }
 );
@@ -53,6 +64,16 @@ const userJoiSchema = Joi.object({
   token: Joi.string(),
 });
 
+const emailJoiSchema = Joi.object({
+  email: Joi.string()
+    .pattern(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/)
+    .required()
+    .messages({
+      "any.required": "missing field email",
+      "string.empty": `"email" cannot be empty`,
+    }),
+});
+
 userSchema.post("save", handleMongooseError);
 
 const User = model("user", userSchema);
@@ -60,4 +81,5 @@ const User = model("user", userSchema);
 module.exports = {
   User,
   userJoiSchema,
+  emailJoiSchema,
 };
